@@ -18,6 +18,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 WORKDIR /workspace
 
 RUN apt-get update && apt-get install -y ffmpeg git
+RUN apt-get install -y ninja-build cmake g++
 
 # Install Python Dependencies
 COPY builder/requirements.txt /requirements.txt
@@ -26,8 +27,9 @@ COPY builder/requirements.txt /requirements.txt
 # 2. Install a known compatible flash-attn wheel from a prebuilt URL (replace URL with an actual working link)
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r /requirements.txt && \
-    pip install flash-attn --no-build-isolation && \
     rm /requirements.txt
+    
+RUN pip install flash-attn==2.6.2 --no-build-isolation
 
 # Cache Models
 COPY builder/cache_model.py /cache_model.py
