@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y ffmpeg
 # Install Python Dependencies
 COPY builder/requirements.txt /requirements.txt
 RUN pip install --upgrade pip && \
+    pip install flash-attn==2.6.2 && \
     pip install -r /requirements.txt && \
     rm /requirements.txt
 
